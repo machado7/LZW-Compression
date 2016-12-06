@@ -1,0 +1,127 @@
+In any publication using these data, please use the follow wording in the
+acknowledgements section: "We acknowledge the Wellcome Trust Case Control
+Consortium for making available data about SNP tagging of common CNVs
+(http://www.wtccc.org.uk/wtcccplus_cnv/supplemental.shtml)."
+
+Please also cite the WTCCC paper that reports these data: Wellcome Trust
+Case Control Consortium. Genome-wide association study of CNVs in 16,000
+cases of eight common diseases and 3,000 shared controls. Nature. 2010 Apr
+1;464(7289):713-20.
+
+masterCNVlist.final.csv (3432 rows x 22 columns)
+
+This file gives annotation for each of the 3,432 CNVs that passed QC in the
+WTCCCplus association study. For each CNV the best tagging SNP is defined as
+the SNP with the highest R-squared value, that lies within a region from 1Mb
+before the start co-ordinate of the CNV to 1Mb after the end co-ordinate of the
+CNV. Note that some CNVs will not have tags as the non-missing calls for the
+UKBS samples were all identical.
+
+
+To create this list we have essentially done three separate analyses:
+
+1. We used imputed SNP calls (created with CHIAMO and IMPUTE version 1, with
+release 22 of HapMap CEPH) from WTCCC1 Affy 500k data for the UKBS samples that
+were in common with samples from the WTCCC+ CNV study, and that passed standard
+QC filters. Best HapMap tags were created from genotype correlations by finding
+the highest R-squared value of a SNP within 1Mb of the CNV.
+
+2. We used SNP calls (created with CHIAMO) from WTCCC2 Affy 6.0 data for the
+UKBS samples that were in common with samples from the WTCCC+ CNV study, and
+passed standard QC filters. We calculated genotype correlations between these
+and our CNVs. Best Affy 6.0 tags were created from these correlations by finding
+the highest R-squared value of a SNP within 1Mb of the CNV. Best Affy 500k tags
+were created from these correlations by finding the highest R-squared of the
+subset of these Affy 6.0 SNPs that are also on the Affy 500k array.
+
+3. We used SNP calls (created with Illuminus) from WTCCC2 Illumina 1.2M data for
+ the UKBS samples that were in common with samples from the WTCCC+ CNV study,
+and passed standard QC filters. We calculated genotype correlations between
+these and our CNVs. Best Illumina tags were created from these correlations by
+finding the highest R-squared value of a SNP within 1Mb of the CNV. Best
+Illumina 660 tags were created from these correlations by finding the highest
+R-squared of the subset of these Illumina SNPs that are also on the Illumina
+660 array.
+
+
+The file is comma separated. The first line of the
+file contains the following headers:
+
+    CNV                         = The unique name of the targeted locus.
+    Chr                         = The chromosome on which the locus can be found.
+    StartCoord                  = The start coordinate of the locus.
+    EndCoord                    = The end coordinate of the locus.
+    Source                      = The study in which the CNV was first discovered, or 
+                                  the reason for targeting the locus. One of:
+                                    42M                 = The GSV 42M high-resolution 
+                                                          scan of common CNV (Conrad 
+                                                          et al. 2009)
+                                    WTCCC1_not_in_42M   = Common CNVs studied in the 
+                                                          original WTCCC study not 
+                                                          discovered in 42M project
+                                    Affy6_CEU           = CNVs discovered in the European 
+                                                          CEPH HapMap population on the 
+                                                          Affymetrix 6.0 platform
+                                    ILMN_HapMap3        = CNVs discovered on the Illumina 
+                                                          platform in the HapMap project
+                                    WTCCC_validation    = CNVs of interest from 
+                                                          original WTCCC study
+                                    PI-selected         = Exonic regions selected by 
+                                                          disease PIs for genes of 
+                                                          interest for each of the 8 
+                                                          common disease
+                                    novel_insert        = Novel insertion regions 
+                                                          drawn from one of two 
+                                                          studies (Levy et al. 2007, 
+                                                          Kidd et al. 2008)
+                                    Affy500k_CNVs       = (Control) Known CNVs originally 
+                                                          detected by Redon et al. (2006)
+                                    Pilot_Affy500k_CNVs = (Control) Known CNVs originally 
+                                                          detected by Redon et al. (2006) 
+                                                          and used in the pilot portion 
+                                                          of this study
+                                    WTCCC1_CNV_deserts  = (Control) Control X-chromosome  
+                                                          loci known to be non-polymorphic 
+                                                          from original WTCCC study
+    CNV_type                    = The type of CNV (if known and applicable). One of 
+                                  'gain', 'loss', 'gain/loss' or 'unknown'.
+    nocl_merged                 = Number of copy number classes identified using CNVCALL
+    posteriors_merged           = Average posterior across samples
+    MAF                         = Minor allele frequency (this will be NA for CNVs with
+                                  than 3 copy number classes)
+    HWE                         = Hardy-Weinberg equilibrium p-value
+    bestLocalHapmapTagRSID      = The rsID of the SNP that best tags this CNV in HapMap 2,
+                                  release 22, using SNP genotypes imputed from WTCCC1 Affy
+                                  500k data
+    bestLocalHapmapTagR2        = R-squared between genotype calls of the CNV and the SNP
+                                  that best tags this CNV in HapMap 2, release 22, using
+                                  SNP genotypes imputed from WTCCC1 Affy 500k data
+    bestLocalAffy6TagRSID       = The rsID of the SNP that best tags this CNV using SNP
+                                  genotypes from WTCCC2 Affy 6.0 data
+    bestLocalAffy6TagR2         = R-squared between genotype calls of the CNV and the SNP
+                                  that best tags this CNV using SNP genotypes from WTCCC2
+                                  Affy 6.0 data
+    bestLocalAffy500kTagRSID    = The rsID of the SNP that best tags this CNV using SNP
+                                  genotypes from WTCCC2 Affy 6.0 data, filtered to the
+                                  subset of Affy 6.0 SNPs that are on the Affy 500k array
+    bestLocalAffy500kTagR2      = R-squared between genotype calls of the CNV and the SNP
+                                  that best tags this CNV using SNP genotypes from WTCCC2
+                                  Affy 6.0 data, filtered to the subset of Affy 6.0 SNPs
+                                  that are on the Affy 500k array
+    bestLocalIlluminaTagRSID    = The rsID of the SNP that best tags this CNV using SNP
+                                  genotypes from WTCCC2 Illumina 1.2M data
+    bestLocalIlluminaTagR2      = R-squared between genotype calls of the CNV and the SNP
+                                  that best tags this CNV using SNP genotypes from WTCCC2
+                                  Illumina 1.2M data
+    bestLocalIllumina660TagRSID = The rsID of the SNP that best tags this CNV using SNP
+                                  genotypes from WTCCC2 Illumina 1.2M data, filtered to the
+                                  subset of Illumina 1.2M SNPs that are on the Illumina 660
+                                  array
+    bestLocalIllumina660TagR2   = R-squared between genotype calls of the CNV and the SNP
+                                  that best tags this CNV using SNP genotypes from WTCCC2
+                                  Illumina 1.2M data, filtered to the subset of Illumina
+                                  1.2M SNPs that are on the Illumina 660 array
+    bestLocalAnyTagRSID         = The rsID of best local SNP tag
+    bestLocalAnyTagR2           = R-squared value for best local (within 1MB) SNP tag from imputed
+                                  WTCCC1 data and genotyped WTCCC2 data from both Affymetrix
+                                  and Illumina arrays
